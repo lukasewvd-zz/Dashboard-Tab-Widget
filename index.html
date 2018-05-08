@@ -12,34 +12,10 @@
         <link rel="stylesheet" href="../../../dhis-web-core-resource/bootstrap/3.0.2/css/bootstrap.min.css">
     </head>
     <body>
-        <div class="col-sm-12" style="padding-top: 15px">
-            <ul class="nav nav-pills nav-justified">
-                <li role="presentation" class="active"><a href="#" target="_top">ANEMIA <span class="badge">9</span></a></li>
-                <li role="presentation"><a href="#" target="_top">HYPERTENSION <span class="badge">14</span></a></li>
-                <li role="presentation"><a href="#" target="_top">DIABETES <span class="badge">3</span></a></li>
-                <li role="presentation"><a href="#" target="_top">ATTENDANCE <span class="badge"></span></a></li>
-                <li role="presentation"><a href="#" target="_top">FETAL WELL BEING <span class="badge">1</span></a></li>
-            </ul>
+        <div id="tabs" class="col-sm-12" style="padding-top: 15px">
         </div>
     </body>
-
-    <script>
-        function isActive(id) {
-            var currentURL = document.URL;
-            // TODO: Parse currentURL so that you are only left with the id.
-            var idFromURL = currentURL;
-            if(currentURL === id) {
-                return 'active';
-            }
-            return '';
-        }
-
-        function notificationNum(id) {
-            var num = 0;
-            //TODO: Get amount of active notifications for a specific dashboard. Return null if none, this way no badge is displayed.
-            return num;
-        }
-    </script>
+    <script src="script/main.js"></script>
     <style>
     </style>
 </html>
