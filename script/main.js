@@ -1,7 +1,9 @@
+//All validation results.
 var results = [];
 //User info.
 var user = {};
-
+//All notifications indexed on validation group.
+var notifications = {};
 getValidationResults();
 
 function getValidationResults() {
@@ -11,7 +13,7 @@ function getValidationResults() {
             results = data.validationResults;
             $.get("../../../api/me/", function(userInfo) {
                 user = userInfo;
-                generateTabs(results);
+                notificationNumAll();
             }).fail(function() {
                 console.log("ERROR: Failed to fetch user info.");
             });
@@ -32,27 +34,35 @@ function isActive(id) {
 }
 
 //Might be better to store the amount of notification for each in one go instead of one request per group.
-function notificationNum(groupId) {
-    var num = 0;
+function notificationNumAll() {
     $.get("../../../api/dataStore/userInteractionActionFeedback/" + user.id, function(data) {
         userInteractedActions = data.interactedActions;
         for(var i = 0; i < results.length; i++) {
-            validationRuleGroupIds = results[i].validationRule.validationRuleGroups.map(function(obj){return obj.id;});
-    
-            if(validationRuleGroupIds.indexOf(groupId) > -1 && userInteractedActions.indexOf(results[i].id) < 0) {
-                num++;
+            var id = results[i].id + "";
+            if(userInteractedActions.indexOf(id) < 0) {
+                validationRuleGroupIds = results[i].validationRule.validationRuleGroups.map(function(obj){return obj.id;});
+                for(var j = 0; j < validationRuleGroupIds.length; j++) {
+                    if(!notifications[validationRuleGroupIds[j]]) {
+                        notifications[validationRuleGroupIds[j]] = 1;
+                    } else {
+                        notifications[validationRuleGroupIds[j]]++;
+                    }
+                }
             }
         }
-        return '' + num;
+        generateTabs();
     }).fail(function() {
         for(var i = 0; i < results.length; i++) {
             validationRuleGroupIds = results[i].validationRule.validationRuleGroups.map(function(obj){return obj.id;});
-    
-            if(validationRuleGroupIds.indexOf(groupId) > -1 && userInteractedActions.indexOf(results[i].id) < 0) {
-                num++;
+            for(var j = 0; j < validationRuleGroupIds.length; j++) {
+                if(!notifications[validationRuleGroupIds[j]]) {
+                    notifications[validationRuleGroupIds[j]] = 1;
+                } else {
+                    notifications[validationRuleGroupIds[j]]++;
+                }
             }
         }
-        return '' + num;
+        generateTabs();
     });
 }
 
@@ -70,9 +80,9 @@ function generateTabs() {
             groups = data.validationRuleGroups;
     });
 
-    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>ANC <span class='badge'>" + notificationNum('UP1lctvalPn') + "</span></a></li>";
-    tabs += "<li class='" + isActive('index.html') + "' role='presentation'><a href='#' target='_top'>Critical event <span class='badge'>3</span></a></li>";
-    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>Malaria <span class='badge'>1</span></a></li>";
+    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>ANC <span class='badge'>" + notifications['UP1lctvalPn'] + "</span></a></li>";
+    tabs += "<li class='" + isActive('index.html') + "' role='presentation'><a href='#' target='_top'>Critical event <span class='badge'>" + notifications['xWtt9c443Lt'] + "</span></a></li>";
+    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>Malaria <span class='badge'>" + notifications['zlaSof6qLqF'] + "</span></a></li>";
 
     tabContainer.innerHTML = tabs;
     parent.appendChild(tabContainer);
