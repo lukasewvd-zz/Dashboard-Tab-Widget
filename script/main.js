@@ -1,3 +1,5 @@
+//Sets id of iframe so that it can be fetched by other apps.
+window.frameElement.id = 'tabsApp';
 //All validation results.
 var results = [];
 //User info.
@@ -26,7 +28,6 @@ function isActive(id) {
     var splitURL = currentURL.split('/');
     //Gets the id of current dashboard from URL.
     var idFromURL = splitURL[splitURL.length -1];
-    console.log(idFromURL);
     if(idFromURL === id) {
         return 'active';
     }
@@ -80,9 +81,9 @@ function generateTabs() {
             groups = data.validationRuleGroups;
     });
 
-    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>ANC <span class='badge'>" + notifications['UP1lctvalPn'] + "</span></a></li>";
-    tabs += "<li class='" + isActive('index.html') + "' role='presentation'><a href='#' target='_top'>Critical event <span class='badge'>" + notifications['xWtt9c443Lt'] + "</span></a></li>";
-    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>Malaria <span class='badge'>" + notifications['zlaSof6qLqF'] + "</span></a></li>";
+    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>ANC <span id='UP1lctvalPn' class='badge'>" + notifications['UP1lctvalPn'] + "</span></a></li>";
+    tabs += "<li class='" + isActive('index.html') + "' role='presentation'><a href='#' target='_top'>Critical event <span id='xWtt9c443Lt' class='badge'>" + notifications['xWtt9c443Lt'] + "</span></a></li>";
+    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>Malaria <span id='zlaSof6qLqF' class='badge'>" + notifications['zlaSof6qLqF'] + "</span></a></li>";
 
     tabContainer.innerHTML = tabs;
     parent.appendChild(tabContainer);
