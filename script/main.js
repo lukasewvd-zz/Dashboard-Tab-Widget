@@ -9,6 +9,14 @@ var notifications = {};
 
 var allDownIdOrgUnits = [];
 
+//Used for genetating the tabs. Id is the id of the validationGroup, name is the name of the
+//validationGroup and dashboardId is the id of the dashboard where the group is displayed.
+var validationGroups = [
+    {id: 'UP1lctvalPn', name: 'ANC', dashboardId: 'index.html'},
+    {id: 'xWtt9c443Lt', name: 'Critical event', dashboardId: 'test.html'},
+    {id: 'zlaSof6qLqF', name: 'Malaria', dashboardId: 'test.html'},
+];
+
 getValidationResults();
 
 function getValidationResults() {
@@ -133,10 +141,10 @@ function generateTabs() {
             groups = data.validationRuleGroups;
     });
 
-    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>ANC <span id='UP1lctvalPn' class='badge'>" + getNotifications('UP1lctvalPn') + "</span></a></li>";
-    tabs += "<li class='" + isActive('index.html') + "' role='presentation'><a href='#' target='_top'>Critical event <span id='xWtt9c443Lt' class='badge'>" + getNotifications('xWtt9c443Lt') + "</span></a></li>";
-    tabs += "<li class='" + isActive('test.html') + "' role='presentation'><a href='#' target='_top'>Malaria <span id='zlaSof6qLqF' class='badge'>" + getNotifications('zlaSof6qLqF') + "</span></a></li>";
-
+    for (var i = 0; i < validationGroups.length; i++) {
+        tabs += "<li class='" + isActive(validationGroups[i].dashboardId) + "' role='presentation'><a href='#' target='_top'>" + validationGroups[i].name + " <span id='" + validationGroups[i].id + "' class='badge'>" + getNotifications(validationGroups[i].id) + "</span></a></li>";
+    }
+    
     tabContainer.innerHTML = tabs;
     parent.appendChild(tabContainer);
 }
